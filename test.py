@@ -6,4 +6,4 @@ print(1+2+3+4)
 astring = '38$@NoNoN'
 for i in astring:
     print(i)
-    print(i.upper())
+    print(i.lower())
