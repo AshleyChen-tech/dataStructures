@@ -30,6 +30,104 @@ class Solution:
         return dummy.next  # 哨兵节点的下一个节点就是头节点
 
 
+# 141. 环形链表
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast is slow:
+                return True
+        return False
+
+
+# 138. 随机链表的复制
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        p0 = dummy = ListNode(next=head)
+        for _ in range(left - 1):
+            p0 = p0.next
+        pre = None
+        cur = p0.next
+        for _ in range(right - left + 1):
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+
+        p0.next.next = cur
+        p0.next = pre
+        return dummy.next
+
+
+# 19. 删除链表的倒数第 N 个结点
+
+
+# 82. 删除排序链表中的重复元素 II
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = dummy = ListNode(next=head)
+        while cur.next and cur.next.next:
+            val = cur.next.val
+            if cur.next.next.val == val:
+                while cur.next and cur.next.val == val:
+                    cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return dummy.next
+
+
+# 61. 旋转链表
+class Solution:
+    def rotateRight(self, head, k):
+        if not head or not head.next: return head
+        # 求链表长度
+        _len = 0
+        cur = head
+        while cur:
+            _len += 1
+            cur = cur.next
+        # 对长度取模
+        k %= _len
+        if k == 0: return head
+        # 让 fast 先向后走 k 步
+        fast, slow = head, head
+        while k:
+            fast = fast.next
+            k -= 1
+        # 此时 slow 和 fast 之间的距离是 k；fast 指向第 k+1 个节点
+        # 当 fast.next 为空时，fast 指向链表最后一个节点，slow 指向倒数第 k + 1 个节点
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+        # newHead 是倒数第 k 个节点，即新链表的头
+        newHead = slow.next
+        # 让倒数第 k + 1 个节点 和 倒数第 k 个节点断开
+        slow.next = None
+        # 让最后一个节点指向原始链表的头
+        fast.next = head
+        return newHead
+
+
+# 86. 分隔链表
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        sml_hummy, big_dummy = ListNode(0), ListNode(0)
+        sml, big = sml_hummy, big_dummy
+        while head:
+            if head.val < x:
+                sml.next = head
+                sml = sml.next
+            else:
+                big.next = head
+                big = big.next
+            head = head.next
+        sml.next = big_dummy.next
+        big.next = None
+        return sml_hummy.next
+
+
 
 
 

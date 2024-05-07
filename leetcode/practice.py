@@ -56,8 +56,63 @@ class Solution:
 
 
  # 1146. 快照数组（哈希表+二分查找）
- 
 
+
+# 2639.查询网格图中每一列的宽度
+
+
+#1017. 负二进制转换
+class Solution:
+    def baseNeg2(self, n: int) -> str:
+        if n == 0 or n == 1:
+            return str(n)
+        res = []
+        while n:
+            remainder = n & 1
+            res.append(str(remainder))
+            n -= remainder
+            n //= -2
+        return ''.join(res[::-1])
+
+
+# 1329. 将矩阵按对角线排序
+
+
+# 2798. 满足目标工作时长的员工数目
+class Solution:
+    def numberOfEmployeesWhoMetTarget(self, hours: List[int], target: int) -> int:
+        ans = 0
+        max_value = max(hours)
+        if target > max_value:
+            return 0
+        for i in range(len(hours)):
+            if target <= hours[i]:
+                ans += 1
+        return ans
+
+
+# 2462. 雇佣 K 位工人的总代价
+
+
+# 857. 雇佣 K 名工人的最低成本
+
+
+# 1235. 规划兼职工作
+
+
+# 1652. 拆炸弹
+class Solution:
+    def decrypt(self, code: List[int], k: int) -> List[int]:
+        n = len(code)
+        ans = [0] * n
+        r = k + 1 if k > 0 else n
+        k = abs(k)
+        s = sum(code[r - k: r])
+        for i in range(n):
+            ans[i] = s
+            s += code[r % n] - code[(r - k) % n]
+            r += 1
+        return ans
 
 
 
