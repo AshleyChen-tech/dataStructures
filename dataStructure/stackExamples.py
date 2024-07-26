@@ -1,4 +1,4 @@
-from basicDataStructure.stack import Stack1
+from dataStructure.stack import Stack1
 import string
 
 

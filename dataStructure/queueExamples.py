@@ -1,4 +1,4 @@
-from basicDataStructure.queue import Queue
+from dataStructure.queue import Queue
 import random
 
 
