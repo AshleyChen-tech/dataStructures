@@ -1,5 +1,8 @@
+# 逻辑模拟
+
+
 # 1、流浪地球
-if __name__ == '__main__':
+def wanderingEarth():
     n, e = map(int, input().split())
     launches = [1001] * n
 
@@ -28,4 +31,45 @@ if __name__ == '__main__':
     lastNum.sort()
     print(len(lastNum))
     print("".join(map(str, lastNum)))
+
+
+# 2、一种字符串压缩表示的解压
+def decompress(s):
+    result = []
+    i = 0
+    n = len(s)
+
+    while i < n:
+        if s[i].isdigit():
+            start = i
+            while i < n and s[i].isdigit():
+                i += 1
+            num_str = s[start:i]
+            if i < n and s[i].islower():
+                count = int(num_str)
+                if count > 2:
+                    result.append(s[i] * count)
+                else:
+                    return "!error"
+                i += 1
+            else:
+                return "!error"
+        elif s[i].islower():
+            result.append(s[i])
+            i += 1
+        else:
+            return "!error"
+
+    return ''.join(result)
+
+
+# 3、螺旋数字矩阵
+
+
+
+if __name__ == '__main__':
+    # wanderingEarth()
+
+    input_string = input().strip()
+    print(decompress(input_string))
 
