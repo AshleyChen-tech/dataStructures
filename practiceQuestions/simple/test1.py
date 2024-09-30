@@ -1,4 +1,5 @@
 # 逻辑模拟
+from collections import deque
 
 
 # 1、流浪地球
@@ -140,7 +141,6 @@ def process_input(keys):
             if current_key and mode == 'number':    # 退出英文模式时输出剩余的数字
                 # 处理当前输入
                 output.append(current_key * count)
-                current_input = []
             current_key = None
             count = 0
 
@@ -172,28 +172,20 @@ def process_input(keys):
     return ''.join(output)
 
 
-def handle_current_input(current_input, key_map, mode):
-    if mode == 'number':
-        return ''.join(current_input)
-    else:
-        result = []
-        count = 1
-        for i in range(len(current_input)):
-            if i > 0 and current_input[i] == current_input[i - 1]:
-                count += 1
-            else:
-                if current_input[i - 1] in key_map:
-                    chars = key_map[current_input[i - 1]]
-                    if chars:
-                        result.append(chars[(count - 1) % len(chars)])
-                count = 1
-        # 处理最后一个输入
-        if current_input:
-            chars = key_map[current_input[-1]]
-            if chars:
-                result.append(chars[(count - 1) % len(chars)])
-        return ''.join(result)
+def print_order(priorities):
+    # 将输入的优先级转换为列表，并记录每个任务的初始位置
+    queue = deque([(priority, idx) for idx, priority in enumerate(priorities)])
+    result = []    # 保存打印顺序
 
+    while queue:
+        current = queue.popleft()
+        # 检查队列中是否有比当前任务优先级高的任务
+        if any(current[0] < item[0] for item in queue):
+            queue.append(current)
+        else:
+            result.append(current[1])
+
+    return result
 
 if __name__ == '__main__':
     # wanderingEarth()
@@ -205,7 +197,14 @@ if __name__ == '__main__':
     # spiral_matrix = creat_spiral_matrix(n, m)
     # print_matrix(spiral_matrix)
 
-    input_keys = input().strip()
-    print(process_input(input_keys))
+    # input_keys = input().strip()
+    # print(process_input(input_keys))
+
+    # 输入
+    input_priorities = list(map(int, input().strip().split(',')))
+    # 计算打印顺序
+    order = print_order(input_priorities)
+    # 输出打印顺序
+    print(','.join(map(str, order)))
 
 
