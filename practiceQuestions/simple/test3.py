@@ -116,7 +116,6 @@ def encode_integer_to_hex(n):
     return hex_result
 
 
-# 读取输入
 if __name__ == "__main__":
     # N = int(input())
     # print(convert_to_real_fee(N))
