@@ -1,6 +1,7 @@
 # 字符串、数组、集合
+import re
 
-
+# 1、敏感字段加密
 def process_command(k, s):
     commands = []  # 存放解析后的命令字
     current_command = []  # 存放当前解析的命令字
@@ -42,7 +43,7 @@ def process_command(k, s):
     return result
 
 
-# TLV解码
+# 2、TLV解码
 def parse_tlv(target_tag, hex_stream):
     # 将输入的16进制码流拆分为单个字节
     stream = hex_stream.split()
@@ -72,18 +73,101 @@ def parse_tlv(target_tag, hex_stream):
     return ""  # 未找到匹配的Tag
 
 
+# 3、字符串分割
+def process_string(K, S):
+    parts = S.split('-')
+    result = [parts[0]]
+    remaining = ''.join(parts[1:])
+    grouped = [remaining[i: i+K] for i in range(0, len(remaining), K)]
+    for group in grouped:
+        lower_count = sum(1 for c in group if c.islower())
+        upper_count = sum(1 for c in group if c.isupper())
+
+        if lower_count > upper_count:
+            result.append(group.lower())
+        elif lower_count < upper_count:
+            result.append(group.upper())
+        else:
+            result.append(group)
+    return '-'.join(result)
+
+
+# 4、英文输入法
+def suggest_words(sentence, prefix):
+    words = re.findall(r"[A-Za-z]+", sentence)
+    unique_words = sorted(set(words))
+    matched_words = [word for word in unique_words if word.startswith(prefix)]
+    if matched_words:
+        return ' '.join(matched_words)
+    else:
+        return prefix
+
+
+# 5、连续字母长度
+def find_kth_longest_substring(s, k):
+    max_len_dict = {}
+    cur_char = s[0]
+    cur_length = 1
+
+    for i in range(1, len(s)):
+        if s[i] == cur_char:
+            cur_length += 1
+        else:
+            if cur_char in max_len_dict:
+                max_len_dict[cur_char] = max(max_len_dict[cur_char], cur_length)
+            else:
+                max_len_dict[cur_char] = cur_length
+            cur_char = s[i]
+            cur_length = 1
+
+    if cur_char in max_len_dict:
+        max_len_dict[cur_char] = max(max_len_dict[cur_char], cur_length)
+    else:
+        max_len_dict[cur_char] = cur_length
+
+    lengths = sorted(max_len_dict.values(), reverse=True)
+    if k > len(lengths):
+        return lengths[-1]
+    else:
+        return lengths[k-1]
+
+
 if __name__ == '__main__':
-    # # 读取输入
+    # # 1、读取输入
     # k = int(input().strip())  # 命令字索引
     # s = input().strip()  # 命令字符串
     #
     # # 输出处理结果
     # print(process_command(k, s))
 
-    # 输入处理
-    target_tag = input().strip()  # 目标Tag
-    hex_stream = input().strip()  # 16进制码流
+    # # 2、输入处理
+    # target_tag = input().strip()  # 目标Tag
+    # hex_stream = input().strip()  # 16进制码流
+    #
+    # # 输出结果
+    # result = parse_tlv(target_tag, hex_stream)
+    # print(result)
 
-    # 输出结果
-    result = parse_tlv(target_tag, hex_stream)
-    print(result)
+    # # 3、输入读取
+    # K = int(input())  # 读取正整数 K
+    # S = input()  # 读取字符串 S
+    #
+    # # 输出处理后的字符串
+    # print(process_string(K, S))
+
+    # # 4、输入读取
+    # sentence = input().strip()  # 输入的第一行，含有英文单词和标点
+    # prefix = input().strip()  # 输入的第二行，前缀
+    #
+    # # 输出联想结果
+    # print(suggest_words(sentence, prefix))
+
+    # 5、输入读取
+    s = input().strip()  # 读取字符串
+    k = int(input().strip())  # 读取k值
+
+    # 输出第k长的子串长度
+    print(find_kth_longest_substring(s, k))
+
+
+
