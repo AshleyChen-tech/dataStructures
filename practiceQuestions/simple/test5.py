@@ -1,5 +1,6 @@
 # 字符串、数组、集合
 import re
+import sys
 
 # 1、敏感字段加密
 def process_command(k, s):
@@ -132,7 +133,58 @@ def find_kth_longest_substring(s, k):
         return lengths[k-1]
 
 
-if __name__ == '__main__':
+# 6、字符串变换最小字符串
+def smallest_string_after_swap(s):
+    s_list = list(s)
+    n = len(s_list)
+    for i in range(n):
+        min_char_index = i
+        for j in range(i+1, n):
+            if s_list[j] < s_list[min_char_index]:
+                min_char_index = j
+        if min_char_index != i:
+            s_list[i], s_list[min_char_index] = s_list[min_char_index], s_list[i]
+            return ''.join(s_list)
+    return s
+
+
+# 7、响应报文时间
+def getMaxResponseTime(messages):
+    ans = sys.maxsize
+
+    for t, m in messages:
+        if m >= 128:
+            bStr = bin(m)[2:]
+            exp = int(bStr[1:4], 2)
+            mant = int(bStr[4:], 2)
+            respTime = t + (mant | 16) << (exp + 3)
+        else:
+            respTime = t + m
+        ans = min(ans, respTime)
+    return ans
+
+
+# 8、数组拼接
+subLen = int(input())
+n = int(input())
+
+lists = [list(filter(lambda x: x != "", input().split(","))) for _ in range(n)]
+
+
+def getResult():
+    ans = []
+    while any(lists):
+        for i in range(len(lists)):
+            if lists[i]:
+                tmp = lists[i][:subLen]
+                del lists[i][:subLen]
+                ans.extend(tmp)
+    return ",".join(ans)
+
+print(getResult())
+
+
+# if __name__ == '__main__':
     # # 1、读取输入
     # k = int(input().strip())  # 命令字索引
     # s = input().strip()  # 命令字符串
@@ -162,12 +214,22 @@ if __name__ == '__main__':
     # # 输出联想结果
     # print(suggest_words(sentence, prefix))
 
-    # 5、输入读取
-    s = input().strip()  # 读取字符串
-    k = int(input().strip())  # 读取k值
+    # # 5、输入读取
+    # s = input().strip()  # 读取字符串
+    # k = int(input().strip())  # 读取k值
+    #
+    # # 输出第k长的子串长度
+    # print(find_kth_longest_substring(s, k))
 
-    # 输出第k长的子串长度
-    print(find_kth_longest_substring(s, k))
+    # # 6、输入处理
+    # s = input().strip()
+    # # 输出结果
+    # print(smallest_string_after_swap(s))
+
+    # # 7、输入获取
+    # c = int(input())
+    # message = [list(map(int, input().split())) for _ in range(c)]
+    # print(getMaxResponseTime(message))
 
 
 
