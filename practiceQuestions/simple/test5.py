@@ -271,21 +271,80 @@ def getMaxResponseTime(messages):
 # print(solution())
 
 
-# 11、字符统计及重排
-def count_letters(s):
-    letter_count = {}
-    for ch in s:
-        if ch in letter_count:
-            letter_count[ch] += 1
-        else:
-            letter_count[ch] = 1
+# # 11、字符统计及重排
+# def count_letters(s):
+#     letter_count = {}
+#     for ch in s:
+#         if ch in letter_count:
+#             letter_count[ch] += 1
+#         else:
+#             letter_count[ch] = 1
+#
+#     sorted_letters = sorted(letter_count.items(), key=lambda x: (-x[1], x[0]))
+#     result = ";".join([f"{ch}:{count}" for ch, count in sorted_letters]) + ";"
+#     return result
 
-    sorted_letters = sorted(letter_count.items(), key=lambda x: (-x[1], x[0]))
-    result = ";".join([f"{ch}:{count}" for ch, count in sorted_letters]) + ";"
-    return result
+
+# # 12、选修课
+# def parse(s, course):
+#     students = s.split(";")
+#     for stu in students:
+#         sid, score = stu.split(",")
+#         course[sid] = int(score)
 
 
-if __name__ == '__main__':
+# # 13、IPv4
+# def Solution(s):
+#     addrs = s.split(".")
+#     if len(addrs) != 4:
+#         return "invalid IP"
+#
+#     ranges = ((1, 128), (0, 255), (0, 255), (0, 255))
+#
+#     hexList = []
+#     for i in range(4):
+#         try:
+#             num = int(addrs[i])
+#         except:
+#             return "invalid IP"
+#
+#         if num != 0 and addrs[i][0] == '0':
+#             return "invalid IP"
+#
+#         if num < ranges[i][0] or num > ranges[i][1]:
+#             return "invalid IP"
+#
+#         hexStr = hex(num)[2:]
+#         if len(hexStr) < 2:
+#             hexStr = '0' + hexStr
+#         hexList.append(hexStr)
+#     return int(''.join(hexList), 16)
+
+
+# 15、免单统计
+n = int(input())
+times = [input() for _ in range(n)]
+
+def Solution():
+    times.sort()
+    ans = 1
+    last = times[0]
+    lastSecond = last[0: 19]
+
+    for i in range(1, len(times)):
+        cur = times[i]
+        curSecond = cur[0:19]
+
+        if cur == last or curSecond != lastSecond:
+            ans += 1
+            last = cur
+            lastSecond = curSecond
+    return ans
+
+print(Solution())
+
+
+# if __name__ == '__main__':
     # # 1、读取输入
     # k = int(input().strip())  # 命令字索引
     # s = input().strip()  # 命令字符串
@@ -332,11 +391,44 @@ if __name__ == '__main__':
     # message = [list(map(int, input().split())) for _ in range(c)]
     # print(getMaxResponseTime(message))
 
-    # 11、输入
-    input_str = input()
-    print(count_letters(input_str))
+    # # 11、输入
+    # input_str = input()
+    # print(count_letters(input_str))
 
+    # # 12
+    # course1 = {}
+    # parse(input(), course1)
+    #
+    # course2 = {}
+    # parse(input(), course2)
+    #
+    # classes = {}
+    #
+    # for stuID in course1:
+    #     if stuID in course2:
+    #         classID = stuID[:5]
+    #         classes.setdefault(classID, [])
+    #         classes[classID].append(stuID)
+    #
+    # if len(classes) == 0:
+    #     print("NULL")
+    #
+    # for classID in sorted(classes.keys()):
+    #     classes[classID].sort(key=lambda sid: (-(course1[sid] + course2[sid]), sid))
+    #     print(classID)
+    #     print(";".join(classes[classID]))
 
-
-
+    # # 14、热点网站统计
+    # count = {}
+    #
+    # while True:
+    #     try:
+    #         line = input()
+    #         if not line.isdigit():
+    #             count[line] = count.get(line, 0) + 1
+    #         else:
+    #             n = int(line)
+    #             print(",".join(map(lambda x: x[0], sorted(count.items(), key=lambda x: (-x[1], x[0]))[:n])))
+    #     except:
+    #         break
 
