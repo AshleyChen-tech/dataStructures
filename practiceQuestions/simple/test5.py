@@ -204,48 +204,88 @@ def getMaxResponseTime(messages):
 #     return ','.join(ans)
 # print(solution())
 
-# 输入获取
-mianmi = input().split(",")
-midiku = input().split(",")
+# # 输入获取
+# mianmi = input().split(",")
+# midiku = input().split(",")
+#
+#
+# # 判断单词是否匹配的函数
+# def is_match(mianmi_word, midi_word):
+#     # 第一种匹配方式：字母排序后相同
+#     if sorted(mianmi_word) == sorted(midi_word):
+#         return True
+#     # 第二种匹配方式：去重后的字母集合相同
+#     if sorted(set(mianmi_word)) == sorted(set(midi_word)):
+#         return True
+#     return False
+#
+#
+# # 算法入口
+# def solution():
+#     ans = []
+#
+#     # 遍历谜面单词
+#     for word in mianmi:
+#         found = False
+#
+#         # 遍历谜底库，寻找匹配单词
+#         for midi_word in midiku:
+#             if is_match(word, midi_word):
+#                 ans.append(midi_word)
+#                 found = True
+#                 break
+#
+#         if not found:
+#             ans.append("not found")
+#
+#     # 返回结果列表，以逗号分隔
+#     return ",".join(ans)
+#
+#
+# # 输出结果
+# print(solution())
 
 
-# 判断单词是否匹配的函数
-def is_match(mianmi_word, midi_word):
-    # 第一种匹配方式：字母排序后相同
-    if sorted(mianmi_word) == sorted(midi_word):
-        return True
-    # 第二种匹配方式：去重后的字母集合相同
-    if sorted(set(mianmi_word)) == sorted(set(midi_word)):
-        return True
-    return False
+# # 10、单词接龙
+# k = int(input())
+# n = int(input())
+# words = [input() for _ in range(n)]
+#
+# def solution():
+#     chain = [words.pop()]
+#     prefix = {}
+#     for word in words:
+#         w = word[0]
+#         if prefix.get(w) is None:
+#             prefix[w] = []
+#         prefix[w].append(word)
+#     for w in prefix.keys():
+#         prefix[w].sort(key=lambda x: (-len(x), x))
+#     while True:
+#         tail = chain[-1][-1]
+#         if tail not in prefix or len(prefix[tail]) == 0:
+#             break
+#         chain.append(prefix[tail].pop(0))
+#     return "".join(chain)
+#
+# print(solution())
 
 
-# 算法入口
-def solution():
-    ans = []
+# 11、字符统计及重排
+def count_letters(s):
+    letter_count = {}
+    for ch in s:
+        if ch in letter_count:
+            letter_count[ch] += 1
+        else:
+            letter_count[ch] = 1
 
-    # 遍历谜面单词
-    for word in mianmi:
-        found = False
-
-        # 遍历谜底库，寻找匹配单词
-        for midi_word in midiku:
-            if is_match(word, midi_word):
-                ans.append(midi_word)
-                found = True
-                break
-
-        if not found:
-            ans.append("not found")
-
-    # 返回结果列表，以逗号分隔
-    return ",".join(ans)
+    sorted_letters = sorted(letter_count.items(), key=lambda x: (-x[1], x[0]))
+    result = ";".join([f"{ch}:{count}" for ch, count in sorted_letters]) + ";"
+    return result
 
 
-# 输出结果
-print(solution())
-
-# if __name__ == '__main__':
+if __name__ == '__main__':
     # # 1、读取输入
     # k = int(input().strip())  # 命令字索引
     # s = input().strip()  # 命令字符串
@@ -291,6 +331,10 @@ print(solution())
     # c = int(input())
     # message = [list(map(int, input().split())) for _ in range(c)]
     # print(getMaxResponseTime(message))
+
+    # 11、输入
+    input_str = input()
+    print(count_letters(input_str))
 
 
 
