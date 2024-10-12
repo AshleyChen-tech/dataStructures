@@ -164,25 +164,86 @@ def getMaxResponseTime(messages):
     return ans
 
 
-# 8、数组拼接
-subLen = int(input())
-n = int(input())
+# # 8、数组拼接
+# subLen = int(input())
+# n = int(input())
+#
+# lists = [list(filter(lambda x: x != "", input().split(","))) for _ in range(n)]
+#
+#
+# def getResult():
+#     ans = []
+#     while any(lists):
+#         for i in range(len(lists)):
+#             if lists[i]:
+#                 tmp = lists[i][:subLen]
+#                 del lists[i][:subLen]
+#                 ans.extend(tmp)
+#     return ",".join(ans)
+#
+# print(getResult())
 
-lists = [list(filter(lambda x: x != "", input().split(","))) for _ in range(n)]
+
+# 9、猜字谜
+# issues = input().split(",")
+# answers = input().split(",")
+#
+# def solution():
+#     ans = []
+#     for issue in issues:
+#         s1 = "".join(sorted(set(issue)))
+#         isNotFind = True
+#
+#         for answer in answers:
+#             s2 = "".join(sorted(set(answer)))
+#             if s1 == s2:
+#                 isNotFind = False
+#
+#         if isNotFind:
+#             ans.append("not found")
+#     return ','.join(ans)
+# print(solution())
+
+# 输入获取
+mianmi = input().split(",")
+midiku = input().split(",")
 
 
-def getResult():
+# 判断单词是否匹配的函数
+def is_match(mianmi_word, midi_word):
+    # 第一种匹配方式：字母排序后相同
+    if sorted(mianmi_word) == sorted(midi_word):
+        return True
+    # 第二种匹配方式：去重后的字母集合相同
+    if sorted(set(mianmi_word)) == sorted(set(midi_word)):
+        return True
+    return False
+
+
+# 算法入口
+def solution():
     ans = []
-    while any(lists):
-        for i in range(len(lists)):
-            if lists[i]:
-                tmp = lists[i][:subLen]
-                del lists[i][:subLen]
-                ans.extend(tmp)
+
+    # 遍历谜面单词
+    for word in mianmi:
+        found = False
+
+        # 遍历谜底库，寻找匹配单词
+        for midi_word in midiku:
+            if is_match(word, midi_word):
+                ans.append(midi_word)
+                found = True
+                break
+
+        if not found:
+            ans.append("not found")
+
+    # 返回结果列表，以逗号分隔
     return ",".join(ans)
 
-print(getResult())
 
+# 输出结果
+print(solution())
 
 # if __name__ == '__main__':
     # # 1、读取输入
@@ -230,6 +291,8 @@ print(getResult())
     # c = int(input())
     # message = [list(map(int, input().split())) for _ in range(c)]
     # print(getMaxResponseTime(message))
+
+
 
 
 
